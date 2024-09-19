@@ -14,10 +14,16 @@
   "devDependencies": {
     "@cap-js/cds-types": "^0.6",
     "@cap-js/sqlite": "^1",
-    "@sap/cds-dk": "^8"
+    "@sap/cds-dk": "^8",
+    "rimraf": "^5.0.5",
+    "@sap/ux-specification": "UI5-1.128"
   },
   "scripts": {
-    "start": "cds-serve"
+    "start": "cds-serve",
+    "watch-temp_moniter": "cds watch --open temp_moniter/webapp/index.html?sap-ui-xx-viewCache=false",
+    "undeploy": "cf undeploy drug_temperature_moniter --delete-services --delete-service-keys --delete-service-brokers",
+    "build": "rimraf resources mta_archives && mbt build --mtar archive",
+    "deploy": "cf deploy mta_archives/archive.mtar --retries 1"
   },
   "cds": {
     "sql": {
@@ -29,5 +35,8 @@
         "auth": "xsuaa"
       }
     }
-  }
+  },
+  "sapux": [
+    "app/temp_moniter"
+  ]
 }
