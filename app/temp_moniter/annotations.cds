@@ -5,22 +5,18 @@ annotate service.temperature with @(
         Data : [
             {
                 $Type : 'UI.DataField',
-                Label : 'sensorID',
                 Value : sensorID,
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'temperature',
                 Value : temperature,
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'createdAt',
                 Value : createdAt,
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'modifiedAt',
                 Value : modifiedAt,
             },
         ],
@@ -36,22 +32,18 @@ annotate service.temperature with @(
     UI.LineItem : [
         {
             $Type : 'UI.DataField',
-            Label : 'sensorID',
             Value : sensorID,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'temperature',
             Value : temperature,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'createdAt',
             Value : createdAt,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'modifiedAt',
             Value : modifiedAt,
         },
     ],
