@@ -1,0 +1,43 @@
+@server = http://localhost:4004
+@auth = Authorization: Basic alice:
+
+
+### temperature
+# @name temperature_GET
+GET {{server}}/odata/v4/drug-srv/temperature
+{{auth}}
+
+
+### temperature
+# @name temperature_POST
+POST {{server}}/odata/v4/drug-srv/temperature
+Content-Type: application/json
+{{auth}}
+
+{
+  "sensorID": 416858,
+  "temperature": 0,
+  "createdAt": "2023-07-29T00:00:00.000Z",
+  "modifiedAt": "2009-02-12T00:00:00.000Z"
+}
+
+
+### temperature
+# @name temperature_PATCH
+PATCH {{server}}/odata/v4/drug-srv/temperature/416858
+Content-Type: application/json
+{{auth}}
+
+{
+  "sensorID": 416858,
+  "temperature": 0,
+  "createdAt": "2023-07-29T00:00:00.000Z",
+  "modifiedAt": "2009-02-12T00:00:00.000Z"
+}
+
+
+### temperature
+# @name temperature_DELETE
+DELETE {{server}}/odata/v4/drug-srv/temperature/416858
+Content-Type: application/json
+{{auth}}

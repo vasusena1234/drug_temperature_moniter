@@ -1,0 +1,96 @@
+_schema-version: 3.3.0
+ID: drug_temperature_moniter
+description: A simple CAP project.
+version: 1.0.0
+modules:
+- name: drug_temperature_moniter-srv
+  type: nodejs
+  path: gen/srv
+  requires:
+  - name: drug_temperature_moniter-db
+  - name: drug_temperature_moniter-auth
+  provides:
+  - name: srv-api
+    properties:
+      srv-url: ${default-url}
+  parameters:
+    buildpack: nodejs_buildpack
+    readiness-health-check-http-endpoint: /health
+    readiness-health-check-type: http
+  build-parameters:
+    builder: npm
+- name: drug_temperature_moniter-db-deployer
+  type: hdb
+  path: gen/db
+  requires:
+  - name: drug_temperature_moniter-db
+  parameters:
+    buildpack: nodejs_buildpack
+- name: drug_temperature_moniter-destination-content
+  type: com.sap.application.content
+  requires:
+  - name: drug_temperature_moniter-destination-service
+    parameters:
+      content-target: true
+  - name: drug_temperature_moniter_html_repo_host
+    parameters:
+      service-key:
+        name: drug_temperature_moniter_html_repo_host-key
+  - name: drug_temperature_moniter-auth
+    parameters:
+      service-key:
+        name: drug_temperature_moniter-auth-key
+  parameters:
+    content:
+      instance:
+        destinations:
+        - Name: drug_temp_drug_temperature_moniter_html_repo_host
+          ServiceInstanceName: drug_temperature_moniter-html5-app-host-service
+          ServiceKeyName: drug_temperature_moniter_html_repo_host-key
+          sap.cloud.service: drug_temp
+        - Authentication: OAuth2UserTokenExchange
+          Name: drug_temp_drug_temperature_moniter_auth
+          ServiceInstanceName: drug_temperature_moniter-auth
+          ServiceKeyName: drug_temperature_moniter-auth-key
+          sap.cloud.service: drug_temp
+        existing_destinations_policy: ignore
+  build-parameters:
+    no-source: true
+resources:
+- name: drug_temperature_moniter-db
+  type: com.sap.xs.hdi-container
+  parameters:
+    service: hana
+    service-plan: hdi-shared
+- name: drug_temperature_moniter-auth
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      tenant-mode: dedicated
+      xsappname: drug_temperature_moniter-${org}-${space}
+    path: ./xs-security.json
+    service: xsuaa
+    service-plan: application
+- name: drug_temperature_moniter-destination-service
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: true
+      version: 1.0.0
+    service: destination
+    service-name: drug_temperature_moniter-destination-service
+    service-plan: lite
+- name: drug_temperature_moniter_html_repo_host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-name: drug_temperature_moniter-html5-app-host-service
+    service-plan: app-host
+parameters:
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+  - builder: custom
+    commands:
+    - npm ci
+    - npx cds build --production
