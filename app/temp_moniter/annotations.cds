@@ -1,51 +1,57 @@
 using drugSrv as service from '../../srv/drug-srv';
+
 annotate service.temperature with @(
-    UI.FieldGroup #GeneratedGroup : {
-        $Type : 'UI.FieldGroupType',
+    UI.FieldGroup #GeneratedGroup: {
+        $Type: 'UI.FieldGroupType',
         Data : [
             {
-                $Type : 'UI.DataField',
-                Value : sensorID,
+                $Type: 'UI.DataField',
+                Value: sensorID,
             },
             {
-                $Type : 'UI.DataField',
-                Value : temperature,
+                $Type: 'UI.DataField',
+                Value: temperatureInC,
             },
             {
-                $Type : 'UI.DataField',
-                Value : createdAt,
+                $Type: 'UI.DataField',
+                Value: temperatureInF,
             },
             {
-                $Type : 'UI.DataField',
-                Value : modifiedAt,
+                $Type: 'UI.DataField',
+                Value: humidity,
             },
+            {
+                $Type: 'UI.DataField',
+                Value: createdAt,
+            }
         ],
     },
-    UI.Facets : [
+    UI.Facets                    : [{
+        $Type : 'UI.ReferenceFacet',
+        ID    : 'GeneratedFacet1',
+        Label : 'General Information',
+        Target: '@UI.FieldGroup#GeneratedGroup',
+    }, ],
+    UI.LineItem                  : [
         {
-            $Type : 'UI.ReferenceFacet',
-            ID : 'GeneratedFacet1',
-            Label : 'General Information',
-            Target : '@UI.FieldGroup#GeneratedGroup',
-        },
-    ],
-    UI.LineItem : [
-        {
-            $Type : 'UI.DataField',
-            Value : sensorID,
+            $Type: 'UI.DataField',
+            Value: sensorID,
         },
         {
-            $Type : 'UI.DataField',
-            Value : temperature,
+            $Type: 'UI.DataField',
+            Value: temperatureInC,
         },
         {
-            $Type : 'UI.DataField',
-            Value : createdAt,
+            $Type: 'UI.DataField',
+            Value: temperatureInF,
         },
         {
-            $Type : 'UI.DataField',
-            Value : modifiedAt,
+            $Type: 'UI.DataField',
+            Value: humidity,
         },
+        {
+            $Type: 'UI.DataField',
+            Value: createdAt,
+        }
     ],
 );
-
